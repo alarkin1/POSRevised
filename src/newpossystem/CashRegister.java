@@ -15,11 +15,20 @@ public class CashRegister {
     private OutputStrategy receiptOutputMechanism;
 
     public CashRegister(OutputStrategy receiptOutputMechanism) {
-        this.receiptOutputMechanism = receiptOutputMechanism;
+        if (receiptOutputMechanism == null || receiptOutputMechanism instanceof OutputStrategy == false) {
+            receiptOutputMechanism.outputErrorMessage(GlobalErrorMessages.illegalReceiptOutputterErrorMessage);
+            System.exit(0);
+        } else {
+            this.receiptOutputMechanism = receiptOutputMechanism;
+        }
     }
 
     public final void beginSale(String customerId, DatabaseStrategy newDatabase, double salesTaxRatePerc) {
-        newVirtualReceipt = new VirtualReceipt(customerId, newDatabase, salesTaxRatePerc);
+        try {
+            newVirtualReceipt = new VirtualReceipt(customerId, newDatabase, salesTaxRatePerc);
+        } catch (RuntimeException re) {
+            receiptOutputMechanism.outputErrorMessage(re.getMessage());
+        }
     }
 
     public final void endSale() {
@@ -28,7 +37,10 @@ public class CashRegister {
     }
 
     public final void addItemToReceipt(int upc, int quantity) {
-        newVirtualReceipt.addLineItemToReceipt(upc, quantity);
+        try {
+            newVirtualReceipt.addLineItemToReceipt(upc, quantity);
+        } catch (RuntimeException re) {
+            receiptOutputMechanism.outputErrorMessage(re.getMessage());
+        }
     }
-
 }

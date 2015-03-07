@@ -11,4 +11,5 @@ package newpossystem;
  */
 public interface OutputStrategy {
     public abstract void outputReceipt(String receiptText);
+    public abstract void outputErrorMessage(String errorMessage);
 }

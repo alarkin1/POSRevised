@@ -11,11 +11,16 @@ import javax.swing.JOptionPane;
  *
  * @author Alex
  */
-public class OutputGUI implements OutputStrategy{
+public class OutputGUI implements OutputStrategy {
 
     @Override
     public void outputReceipt(String receiptText) {
         JOptionPane.showMessageDialog(null, receiptText);
+    }
+
+    @Override
+    public void outputErrorMessage(String errorMessage) {
+        JOptionPane.showMessageDialog(null, errorMessage);
     }
 
 }

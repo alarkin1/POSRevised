@@ -19,9 +19,16 @@ public class VirtualReceipt {
     private double totalSaved;
     private double salesTaxRatePerc;
 
-    public VirtualReceipt(String customerId, DatabaseStrategy db, double salesTaxRatePerc) {
+    public VirtualReceipt(String customerId, DatabaseStrategy db, double salesTaxRatePerc) throws IllegalArgumentException {
+        if (customerId == null || customerId.isEmpty() || customerId.length() > GlobalErrorMessages.maxCustomerIdLength || customerId.length() < GlobalErrorMessages.minCustomerIdLength) {
+            throw new IllegalArgumentException(GlobalErrorMessages.illegalCustomerIdErrorMessage);
+        } else if (db == null) {
+            throw new IllegalArgumentException(GlobalErrorMessages.illegalDatabaseErrorMessage);
+        } else if (salesTaxRatePerc < GlobalErrorMessages.minSalesTaxRatePerc || salesTaxRatePerc > GlobalErrorMessages.maxSalesTaxRatePerc) {
+            throw new IllegalArgumentException(GlobalErrorMessages.illegalSalesTaxRatePercErrorMessage);
+        }
         listOfLineItems = new LineItem[0];
-        this.salesTaxRatePerc = salesTaxRatePerc; 
+        this.salesTaxRatePerc = salesTaxRatePerc;
         this.db = db;
         customer = this.db.findCustomerAndReturnCustomer(customerId);
     }
@@ -37,7 +44,7 @@ public class VirtualReceipt {
     }
 
     private void createReceiptHeader() {
-        receiptText += "Thank you for shopping at Kohls, " + customer.getName() + "\n";
+        receiptText = "Thank you for shopping at Kohls, " + customer.getName() + "\n";
         receiptText += "------------------------------------------------------\n";
         receiptText += "Product Name, Product Id, Qty, Discounted Price\n";
         receiptText += "------------------------------------------------------\n";
@@ -68,15 +75,18 @@ public class VirtualReceipt {
         receiptText += "TOTAL SAVED:        $" + (totalSaved - salesTaxAmount) + "\n";
     }
 
-    public final void addLineItemToReceipt(int upc, int quantity) {
+    public final void addLineItemToReceipt(int upc, int quantity) throws IllegalArgumentException {
+        if (upc > GlobalErrorMessages.maxUpc || upc < GlobalErrorMessages.minUpc) {
+            throw new IllegalArgumentException(GlobalErrorMessages.illegalUpcErrorMessage);
+        } else if (quantity > GlobalErrorMessages.maxQuantity || quantity < GlobalErrorMessages.minQuantity) {
+            throw new IllegalArgumentException(GlobalErrorMessages.illegalQuantityErrorMessage);
+        }
         LineItem[] temp = new LineItem[listOfLineItems.length + 1];
         System.arraycopy(listOfLineItems, 0, temp, 0, listOfLineItems.length);
         LineItem lineItemToAdd = new LineItem(db.findProductViaUpcAndReturnProduct(upc), quantity);
-        if (lineItemToAdd.getItemPrice() != 0 && lineItemToAdd.getLineItemName() != null) {
-            temp[listOfLineItems.length] = lineItemToAdd;
-            listOfLineItems = temp;
-            temp = null;
-            lineItemToAdd = null;
-        }
+        temp[listOfLineItems.length] = lineItemToAdd;
+        listOfLineItems = temp;
+        temp = null;
+        lineItemToAdd = null;
     }
 }

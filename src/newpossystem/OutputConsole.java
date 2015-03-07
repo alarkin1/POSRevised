@@ -9,11 +9,16 @@ package newpossystem;
  *
  * @author Alex
  */
-public class OutputConsole implements OutputStrategy{
+public class OutputConsole implements OutputStrategy {
 
     @Override
     public void outputReceipt(String receiptText) {
         System.out.println(receiptText);
     }
-    
+
+    @Override
+    public void outputErrorMessage(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
 }

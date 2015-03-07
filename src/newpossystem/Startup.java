@@ -20,5 +20,4 @@ public class Startup {
         newCashRegister.addItemToReceipt(98932, 2);
         newCashRegister.endSale();
     }
-    
 }
