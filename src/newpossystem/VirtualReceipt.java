@@ -19,7 +19,7 @@ public class VirtualReceipt {
     private double totalSaved;
     private double salesTaxRatePerc;
 
-    public VirtualReceipt(String customerId, DatabaseStrategy db, double salesTaxRatePerc) throws IllegalArgumentException {
+    public VirtualReceipt(String customerId, DatabaseStrategy db, double salesTaxRatePerc) throws RuntimeException {
         if (customerId == null || customerId.isEmpty() || customerId.length() > GlobalErrorMessages.maxCustomerIdLength || customerId.length() < GlobalErrorMessages.minCustomerIdLength) {
             throw new IllegalArgumentException(GlobalErrorMessages.illegalCustomerIdErrorMessage);
         } else if (db == null) {
@@ -75,7 +75,7 @@ public class VirtualReceipt {
         receiptText += "TOTAL SAVED:        $" + (totalSaved - salesTaxAmount) + "\n";
     }
 
-    public final void addLineItemToReceipt(int upc, int quantity) throws IllegalArgumentException {
+    public final void addLineItemToReceipt(int upc, int quantity) throws RuntimeException {
         if (upc > GlobalErrorMessages.maxUpc || upc < GlobalErrorMessages.minUpc) {
             throw new IllegalArgumentException(GlobalErrorMessages.illegalUpcErrorMessage);
         } else if (quantity > GlobalErrorMessages.maxQuantity || quantity < GlobalErrorMessages.minQuantity) {

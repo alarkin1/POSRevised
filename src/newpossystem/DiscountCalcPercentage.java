@@ -10,33 +10,31 @@ package newpossystem;
  * @author Alex
  */
 public class DiscountCalcPercentage implements DiscountCalcStrategy {
-    
+
     private double amountOff = 1;
 
-    public DiscountCalcPercentage(double amountOff) {
+    public DiscountCalcPercentage(double amountOff) throws RuntimeException {
         this.amountOff = amountOff;
     }
 
-    public double getAmountOff() {
+    private final double getAmountOff() {
         return amountOff;
     }
 
-    public void setAmountOff(double amountOff) {
-        this.amountOff = amountOff;
+    private final void setAmountOff(double amountOff) throws RuntimeException {
+        if (amountOff > 0) {
+            this.amountOff = amountOff;
+        } else {
+            throw new IllegalArgumentException("Amount off cannot be less than 0");
+        }
     }
-    
-    
-    //calls twice becduase the LineItem calls this method once and then calculateAndReturnSavings calls it also
+
     @Override
-    public double calculateAndReturnSavings(double price, int quantity) {
-        return (price * quantity) * (amountOff * .01);
+    public final double calculateAndReturnSavings(double price, int quantity) {
+        if (price > 0 && quantity > 0) {
+            return (price * quantity) * (getAmountOff() * .01);
+        } else {
+            throw new IllegalArgumentException("price and quantity do not take a numeric value less than 0");
+        }
     }
-
-//    @Override
-//    public double calculateAndReturnDiscountedPrice(double price, int quantity) {
-//        return ((price * quantity) - calculateAndReturnSavings(price, quantity));
-//    }
-    
-    
-
 }

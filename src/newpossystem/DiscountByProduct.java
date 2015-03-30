@@ -20,17 +20,21 @@ public class DiscountByProduct implements DiscountStrategy {
     }
 
     @Override
-    public void setDiscountCalculationMethod(DiscountCalcStrategy discountCalculationMethod) {
-        this.discountCalculationMethod = discountCalculationMethod;
+    public final void setDiscountCalculationMethod(DiscountCalcStrategy discountCalculationMethod) throws RuntimeException{
+        if (discountCalculationMethod != null) {
+            this.discountCalculationMethod = discountCalculationMethod;
+        } else {
+            throw new NullPointerException("discountCalculationMethod cannot be passed a null");
+        }
     }
 
     @Override
-    public double calculateAndReturnSavings(double price, int quantity) {
+    public final double calculateAndReturnSavings(double price, int quantity) throws RuntimeException{
         return discountCalculationMethod.calculateAndReturnSavings(price, quantity);
     }
 
     @Override
-    public double calculateAndReturnDiscountedPrice(double price, int quantity) {
+    public final double calculateAndReturnDiscountedPrice(double price, int quantity) throws RuntimeException{
         return (price * quantity) - calculateAndReturnSavings(price, quantity);
     }
 }

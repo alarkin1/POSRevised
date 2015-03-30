@@ -9,19 +9,17 @@ package newpossystem;
  *
  * @author Alex
  */
-public class PackerTShirt implements ProductStrategy{
-    
-    
+public class PackerTShirt implements ProductStrategy {
+
     private int upc = 98932;
     private String productName = "Packer T Shirt";
     private DiscountStrategy discount;
     private double price;
 
-    public PackerTShirt(DiscountStrategy discount, double price) {
-        this.discount = discount;
-        this.price = price;
+    public PackerTShirt(DiscountStrategy discount, double price) throws RuntimeException {
+        setDiscount(discount);
+        setPrice(price);
     }
-    
 
     public DiscountStrategy getDiscountStrategy() {
         return discount;
@@ -39,20 +37,36 @@ public class PackerTShirt implements ProductStrategy{
         return price;
     }
 
-    public void setUpc(int upc) {
-        this.upc = upc;
+    public void setUpc(int upc) throws RuntimeException{
+        if (upc >= 0) {
+            this.upc = upc;
+        } else {
+            throw new IllegalArgumentException("upc must be passed a value greater than or equal to 0");
+        }
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductName(String productName) throws RuntimeException {
+        if (productName != null) {
+            this.productName = productName;
+        } else {
+            throw new NullPointerException("productName cannot be passed a null");
+        }
     }
 
-    public void setDiscount(DiscountStrategy discount) {
-        this.discount = discount;
+    public void setDiscount(DiscountStrategy discount) throws RuntimeException {
+        if (discount != null) {
+            this.discount = discount;
+        } else {
+            throw new NullPointerException("discount cannot be passed a null");
+        }
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setPrice(double price) throws RuntimeException {
+        if (price > -1) {
+            this.price = price;
+        } else {
+            throw new IllegalArgumentException("Price cannot be set to less than 0");
+        }
     }
-    
+
 }

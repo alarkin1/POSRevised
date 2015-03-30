@@ -15,7 +15,7 @@ public class CashRegister {
     private OutputStrategy receiptOutputMechanism;
 
     public CashRegister(OutputStrategy receiptOutputMechanism) {
-        if (receiptOutputMechanism == null || receiptOutputMechanism instanceof OutputStrategy == false) {
+        if (receiptOutputMechanism == null) {
             receiptOutputMechanism.outputErrorMessage(GlobalErrorMessages.illegalReceiptOutputterErrorMessage);
             System.exit(0);
         } else {
