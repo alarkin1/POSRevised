@@ -13,7 +13,7 @@ public class DiscountCalcFlat implements DiscountCalcStrategy {
 
     private double amountOff = 1;
 
-    private final void setAmountOff(double amountOff) throws RuntimeException {
+    public final void setAmountOff(double amountOff) throws RuntimeException {
         if (amountOff > 0) {
             this.amountOff = amountOff;
         } else {
@@ -21,7 +21,7 @@ public class DiscountCalcFlat implements DiscountCalcStrategy {
         }
     }
 
-    private final double getAmountOff() {
+    public final double getAmountOff() {
         return amountOff;
     }
 

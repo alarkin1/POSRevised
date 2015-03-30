@@ -17,11 +17,11 @@ public class DiscountCalcPercentage implements DiscountCalcStrategy {
         this.amountOff = amountOff;
     }
 
-    private final double getAmountOff() {
+    public final double getAmountOff() {
         return amountOff;
     }
 
-    private final void setAmountOff(double amountOff) throws RuntimeException {
+    public final void setAmountOff(double amountOff) throws RuntimeException {
         if (amountOff > 0) {
             this.amountOff = amountOff;
         } else {

@@ -10,5 +10,10 @@ package newpossystem;
  * @author Alex
  */
 public interface DiscountCalcStrategy {
+
     public abstract double calculateAndReturnSavings(double price, int quantity);
+
+    public abstract void setAmountOff(double amountOff);
+
+    public abstract double getAmountOff();
 }

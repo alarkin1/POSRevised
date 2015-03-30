@@ -12,11 +12,9 @@ package newpossystem;
 public class DiscountByProduct implements DiscountStrategy {
 
     private DiscountCalcStrategy discountCalculationMethod;
-    private int quantity = 1;
 
-    public DiscountByProduct(DiscountCalcStrategy discountCalculationMethod) {
-        this.discountCalculationMethod = discountCalculationMethod;
-        this.quantity = quantity;
+    public DiscountByProduct(DiscountCalcStrategy discountCalculationMethod) throws RuntimeException{
+        setDiscountCalculationMethod(discountCalculationMethod);
     }
 
     @Override
